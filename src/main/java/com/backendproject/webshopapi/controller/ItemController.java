@@ -55,9 +55,6 @@ public class ItemController {
 
         }
 
-
-
-
         order.addOrderEntry(new OrderEntry(item, request.getQuantity()));
 
         customerOrderRepository.save(order);
