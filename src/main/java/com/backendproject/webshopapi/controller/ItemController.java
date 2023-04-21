@@ -54,8 +54,6 @@ public class ItemController {
             order = customer.addNewOrder(new CustomerOrder(LocalDate.now()));
         }
 
-
-
         order.addOrderEntry(new OrderEntry(item, request.getQuantity()));
 
         customerOrderRepository.save(order);

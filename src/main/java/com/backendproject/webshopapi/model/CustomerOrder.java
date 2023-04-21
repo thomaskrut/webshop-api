@@ -42,16 +42,11 @@ public class CustomerOrder {
 
     public void addOrderEntry(OrderEntry orderEntry) {
 
-        orderEntries.stream().filter(e -> e.getItem().getId() == orderEntry.getItem().getId()).map(e -> {
-            e.setQuantity(e.getQuantity() + orderEntry.getQuantity());
-            return e;
-        }).findFirst().orElseGet(() -> {
-            orderEntries.add(orderEntry);
-            return orderEntry;
-        });
+        orderEntries.stream()
+                .filter(e -> e.getItem().getId() == orderEntry.getItem().getId())
+                .findFirst().ifPresentOrElse(e -> e.setQuantity(e.getQuantity() + orderEntry.getQuantity()), () -> orderEntries.add(orderEntry));
 
     }
-
 
 
 }
