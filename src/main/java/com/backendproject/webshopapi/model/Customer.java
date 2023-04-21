@@ -3,8 +3,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import java.util.List;
 
@@ -23,10 +21,18 @@ public class Customer {
     private String lastName;
     private String ssn;
 
+    @OneToMany
+    @JoinColumn(name = "customer_id")
+    private List<CustomerOrder> orders;
+
     public Customer(String firstName, String lastName, String ssn) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.ssn = ssn;
+    }
+
+    public void newOrder(CustomerOrder order) {
+        orders.add(order);
     }
 
 
