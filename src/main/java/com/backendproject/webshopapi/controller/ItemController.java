@@ -52,14 +52,13 @@ public class ItemController {
             if (order.getCustomer().getId() != request.getCustomerId()) return "Customer does not own order";
         } else {
             order = customer.addNewOrder(new CustomerOrder(LocalDate.now()));
-
         }
 
         order.addOrderEntry(new OrderEntry(item, request.getQuantity()));
 
         customerOrderRepository.save(order);
 
-        return "Product added to order";
+        return "Product added to order #" + order.getId();
     }
 
 
