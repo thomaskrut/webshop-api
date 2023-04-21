@@ -1,15 +1,20 @@
 package com.backendproject.webshopapi.model;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+
 
 public class Customer {
 
@@ -21,8 +26,10 @@ public class Customer {
     private String lastName;
     private String ssn;
 
-    @OneToMany
+
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
+    @Cascade(CascadeType.ALL)
     private List<CustomerOrder> orders;
 
     public Customer(String firstName, String lastName, String ssn) {

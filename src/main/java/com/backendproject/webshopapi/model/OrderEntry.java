@@ -23,11 +23,9 @@ public class OrderEntry {
     @JoinColumn
     private Product product;
 
-
-
-    public OrderEntry(int quantity, Product product) {
-        this.quantity = quantity;
+    public OrderEntry(Product product, int quantity) {
         this.product = product;
+        this.quantity = quantity;
     }
 
 }

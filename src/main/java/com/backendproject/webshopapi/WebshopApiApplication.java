@@ -1,6 +1,8 @@
 package com.backendproject.webshopapi;
 
 import com.backendproject.webshopapi.model.Customer;
+import com.backendproject.webshopapi.model.CustomerOrder;
+import com.backendproject.webshopapi.model.OrderEntry;
 import com.backendproject.webshopapi.model.Product;
 import com.backendproject.webshopapi.repository.CustomerOrderRepository;
 import com.backendproject.webshopapi.repository.CustomerRepository;
@@ -11,6 +13,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootApplication
@@ -38,8 +41,24 @@ public class WebshopApiApplication {
                     new Product("Vitlökspress", 19.9)
             ));
 
+            Customer customer1 = customerRepository.findById(1L).get();
+            customer1.newOrder(new CustomerOrder(LocalDate.now()));
+            customerRepository.save(customer1);
+
+            Customer customer2 = customerRepository.findById(3L).get();
+            customer2.newOrder(new CustomerOrder(LocalDate.now()));
+            customer2.newOrder(new CustomerOrder(LocalDate.now()));
+            customerRepository.save(customer2);
 
 
+            CustomerOrder order1 = customerOrderRepository.findById(1L).get();
+            order1.addOrderEntry(new OrderEntry(productRepository.findById(4L).get(), 3));
+            customerOrderRepository.save(order1);
+
+            CustomerOrder order2 = customerOrderRepository.findById(2L).get();
+            order2.addOrderEntry(new OrderEntry(productRepository.findById(2L).get(), 5));
+            order2.addOrderEntry(new OrderEntry(productRepository.findById(3L).get(), 2));
+            customerOrderRepository.save(order2);
 
         };
     }
