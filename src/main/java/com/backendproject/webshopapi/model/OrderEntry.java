@@ -23,9 +23,7 @@ public class OrderEntry {
     @JoinColumn
     private Product product;
 
-    @ManyToOne
-    @JoinColumn
-    private OrderCollection order;
+
 
     public OrderEntry(int quantity, Product product) {
         this.quantity = quantity;
