@@ -1,5 +1,6 @@
 package com.backendproject.webshopapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,7 +29,12 @@ public class CustomerOrder {
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
     @Cascade(CascadeType.ALL)
-    private List<OrderEntry> orderEntries;
+    private List<OrderEntry> orderEntries = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    @JsonIgnore
+    private Customer customer;
 
     public CustomerOrder(LocalDate date) {
         this.date = date;

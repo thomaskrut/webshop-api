@@ -2,9 +2,7 @@ package com.backendproject.webshopapi.controller;
 
 import com.backendproject.webshopapi.model.Customer;
 import com.backendproject.webshopapi.repository.CustomerRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +23,11 @@ public class CustomerController {
     @GetMapping("/customers/{id}")
     public Customer getCustomerById(@PathVariable long id) {
         return customerRepository.findById(id).get();
+    }
+
+    @PostMapping("/customers")
+    public Customer createCustomer(@RequestBody Customer customer) {
+        return customerRepository.save(customer);
     }
 
 }

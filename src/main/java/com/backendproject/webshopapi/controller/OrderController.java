@@ -27,7 +27,7 @@ public class OrderController {
 
     @GetMapping("/orders/{customerId}")
     public List<CustomerOrder> getOrdersByCustomerId(@PathVariable long customerId) {
-        return customerRepository.findById(customerId).get().getOrders();
+        return customerOrderRepository.findByCustomerId(customerId);
     }
 
 }

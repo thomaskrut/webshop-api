@@ -42,12 +42,12 @@ public class WebshopApiApplication {
             ));
 
             Customer customer1 = customerRepository.findById(1L).get();
-            customer1.newOrder(new CustomerOrder(LocalDate.now()));
+            customer1.addNewOrder(new CustomerOrder(LocalDate.now()));
             customerRepository.save(customer1);
 
             Customer customer2 = customerRepository.findById(3L).get();
-            customer2.newOrder(new CustomerOrder(LocalDate.now()));
-            customer2.newOrder(new CustomerOrder(LocalDate.now()));
+            customer2.addNewOrder(new CustomerOrder(LocalDate.now()));
+            customer2.addNewOrder(new CustomerOrder(LocalDate.now()));
             customerRepository.save(customer2);
 
             CustomerOrder order1 = customerOrderRepository.findById(1L).get();

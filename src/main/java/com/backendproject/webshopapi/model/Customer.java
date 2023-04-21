@@ -1,13 +1,11 @@
 package com.backendproject.webshopapi.model;
 import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -38,8 +36,9 @@ public class Customer {
         this.ssn = ssn;
     }
 
-    public void newOrder(CustomerOrder order) {
+    public CustomerOrder addNewOrder(CustomerOrder order) {
         orders.add(order);
+        return order;
     }
 
 
