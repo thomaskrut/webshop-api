@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 
-public class Product {
+public class Item {
 
     @Id
     @GeneratedValue
@@ -20,7 +20,7 @@ public class Product {
     private String name;
     private double price;
 
-    public Product(String name, double price) {
+    public Item(String name, double price) {
         this.name = name;
         this.price = price;
     }

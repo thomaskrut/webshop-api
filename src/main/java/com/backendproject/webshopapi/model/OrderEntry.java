@@ -21,10 +21,10 @@ public class OrderEntry {
 
     @ManyToOne
     @JoinColumn
-    private Product product;
+    private Item item;
 
-    public OrderEntry(Product product, int quantity) {
-        this.product = product;
+    public OrderEntry(Item item, int quantity) {
+        this.item = item;
         this.quantity = quantity;
     }
 
