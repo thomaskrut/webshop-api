@@ -7,17 +7,42 @@
   <title>Add Item</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
-<body>
+<body id="form-body">
+
+<!-- navbar -->
+
+<nav class="navbar">
+  <div class="navbar-center">
+    <a th:href="@{customers}"  class="nav-link">Customers</a>
+    <a th:href="@{items}"  class="nav-link">Items</a>
+    <a th:href="@{orders}"  class="nav-link">Orders</a>
+    <h2 class="nav-title">Bluffköp AB</h2>
+    <a th:href="@{addcustomer}"  class="nav-link">Add Customer</a>
+    <a th:href="@{additem}"  class="nav-link">Add Item</a>
+    <a th:href="@{addorder}"  class="nav-link">Add Order</a>
+  </div>
+</nav>
+
+<!-- Form -->
+
+<div class="container" id="form-container">
+
+  <div class="header" id="form-header">
+    <h2>ADD ITEM</h2>
+  </div>
 
 
-<form action="#" th:action="@{registeritem}" th:object="${item}" method="get">
+
+<form id="form" class="form" action="#" th:action="@{registeritem}" th:object="${item}" method="get">
+  <div class="form-control" >
   <label for="name">Name:</label><br>
   <input type="text" id="name" name="name"><br>
   <label for="price">Price:</label><br>
   <input type="text" id="price" name="price"><br>
-  <input type="submit" value="Submit">
+  <input id="confirm-button" type="submit" value="Submit">
+  </div>
 </form>
 
-
+</div>
 </body>
 </html>

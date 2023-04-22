@@ -7,18 +7,47 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/style.css}" />
     <title>All Items</title>
 </head>
-<body>
+<body id="form-body">
 
-<div class="allCapitals" th:unless="${#lists.isEmpty(allItemsList)}">
+<!-- navbar -->
+
+
+<nav class="navbar">
+    <div class="navbar-center">
+        <a th:href="@{customers}"  class="nav-link">Customers</a>
+        <a th:href="@{items}"  class="nav-link">Items</a>
+        <a th:href="@{orders}"  class="nav-link">Orders</a>
+        <h2 class="nav-title">Bluffköp AB</h2>
+        <a th:href="@{addcustomer}"  class="nav-link">Add Customer</a>
+        <a th:href="@{additem}"  class="nav-link">Add Item</a>
+        <a th:href="@{addorder}"  class="nav-link">Add Order</a>
+    </div>
+</nav>
+
+<!-- List-->
+<div class="container" id="form-container">
+    <div id="form" class="form">
+
+<div th:unless="${#lists.isEmpty(allItemsList)}">
+    <div class="header" id="form-header">
     <h2 th:text="${itemTitle}"></h2>
-    <table>
+    </div>
+    <div class="form-control" >
+    <table class="table-style">
         <tbody>
+        <tr class="table-header">
+            <td>Item Name</td>
+            <td>Price</td>
+        </tr>
         <tr th:each="itm : ${allItemsList}">
             <td th:text="${itm.name}"></td>
             <td th:text="${itm.price}"></td>
         </tr>
         </tbody>
     </table>
+</div>
+</div>
+    </div>
 </div>
 
 

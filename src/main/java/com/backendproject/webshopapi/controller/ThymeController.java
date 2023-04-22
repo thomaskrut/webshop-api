@@ -34,7 +34,7 @@ public class ThymeController {
         model.addAttribute("firstNameTitle", "firstName");
         model.addAttribute("lastNameTitle", "lastName");
         model.addAttribute("ssnTitle", "ssn");
-        model.addAttribute("customerTitle", "All Customers");
+        model.addAttribute("customerTitle", "ALL CUSTOMERS");
         return "allcustomers.html";
     }
 
@@ -44,7 +44,7 @@ public class ThymeController {
         model.addAttribute("allItemsList", i);
         model.addAttribute("nameTitle", "name");
         model.addAttribute("priceTitle", "price");
-        model.addAttribute("itemTitle", "All Items");
+        model.addAttribute("itemTitle", "ALL ITEMS");
         return "allitems.html";
     }
 
@@ -54,7 +54,7 @@ public class ThymeController {
         model.addAttribute("allOrdersList", orders);
         model.addAttribute("idTitle", "id");
         model.addAttribute("dateTitle", "date");
-        model.addAttribute("orderTitle", "All Orders");
+        model.addAttribute("orderTitle", "ALL ORDERS");
         return "allorders.html";
     }
 
