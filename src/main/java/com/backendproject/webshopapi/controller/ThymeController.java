@@ -58,13 +58,20 @@ public class ThymeController {
         return "allorders.html";
     }
 
+    @RequestMapping("/confirmitem")
+    public String confirmItem(Model model, Item i, String message) {
+        model.addAttribute("item", i);
+        model.addAttribute("message", message);
+        return "confirmitem.html";
+    }
+
     @GetMapping("/addcustomer")
     public String addCustomerForm(Model model) {
         model.addAttribute("customer", new Customer());
         return "addcustomer.html";
     }
 
-    @GetMapping(path = "/registercustomer")
+    @GetMapping("/registercustomer")
     public String addCustomer(@RequestParam String fname, @RequestParam String lname,
                               @RequestParam String ssn, Model model) {
         Customer c = new Customer();
@@ -81,13 +88,15 @@ public class ThymeController {
         return "additem.html";
     }
 
-    @GetMapping(path = "/registeritem")
+    @GetMapping("/registeritem")
     public String addItem(@RequestParam String name, @RequestParam Double price, Model model) {
+
+        if (name.isBlank() || price < 0) return confirmItem(model, null, "Error: invalid data");
         Item i = new Item();
         i.setName(name);
         i.setPrice(price);
         itemRepository.save(i);
-        return getAllItems(model);
+        return confirmItem(model, i, "Item successfully added");
     }
 
 
