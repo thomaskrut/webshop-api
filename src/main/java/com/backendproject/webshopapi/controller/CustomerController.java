@@ -32,11 +32,17 @@ public class CustomerController {
     }
 
     @PostMapping("/customers")
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<String> createCustomer(@RequestBody Customer customer) {
 
-        if (customer.getSsn().length() != 10) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        if (customer.getFirstName().isBlank() || customer.getLastName().isBlank()) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid name");
 
-        return ResponseEntity.ok(customerRepository.save(customer));
+        if (customer.getSsn().trim().length() != 10) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid SSN");
+
+        if (customerRepository.findAll().stream().anyMatch(c -> c.getSsn().equals(customer.getSsn()))) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("SSN already in database");
+
+        customerRepository.save(customer);
+
+        return ResponseEntity.ok("Customer added to database");
     }
 
 }
