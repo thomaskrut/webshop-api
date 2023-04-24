@@ -12,8 +12,8 @@ import java.util.List;
 @RestController
 public class OrderController {
 
-    private CustomerRepository customerRepository;
-    private CustomerOrderRepository customerOrderRepository;
+    private final CustomerRepository customerRepository;
+    private final CustomerOrderRepository customerOrderRepository;
 
     public OrderController(CustomerRepository customerRepository, CustomerOrderRepository customerOrderRepository) {
         this.customerRepository = customerRepository;

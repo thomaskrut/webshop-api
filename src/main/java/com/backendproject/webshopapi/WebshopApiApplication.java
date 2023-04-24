@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 @SpringBootApplication
 public class WebshopApiApplication {
@@ -27,38 +29,87 @@ public class WebshopApiApplication {
     public CommandLineRunner initDb(CustomerRepository customerRepository, CustomerOrderRepository customerOrderRepository, OrderEntryRepository orderEntryRepository, ItemRepository itemRepository) {
         return (args) -> {
 
-            customerRepository.saveAll(List.of(
+            var newCustomers = List.of(
                     new Customer("Klas", "Klättermus", "8205287716"),
                     new Customer("Pelle", "Påskhare", "9405295516"),
                     new Customer("Kalle", "Kanin", "8103215417"),
-                    new Customer("Musse", "Pigg", "4703084413")
-            ));
+                    new Customer("Musse", "Pigg", "4703084413"),
+                    new Customer("Lina", "Lejon", "8312165123"),
+                    new Customer("Erik", "Ekorre", "8911016814"),
+                    new Customer("Maja", "Mård", "9005154725"),
+                    new Customer("Oscar", "Orm", "9207278516"),
+                    new Customer("Hugo", "Häst", "9512029817"),
+                    new Customer("Ella", "Elefant", "9806113418"),
+                    new Customer("Bella", "Björn", "8506208219"),
+                    new Customer("David", "Delfin", "8707121020"),
+                    new Customer("Fanny", "Falk", "9102185721"),
+                    new Customer("Göran", "Giraff", "8808112822"),
+                    new Customer("Ida", "Iller", "9604016423")
+            );
 
-            itemRepository.saveAll(List.of(
+            customerRepository.saveAll(newCustomers);
+
+            var newItems = List.of(
                     new Item("Stavmixer", 89.9),
                     new Item("Kaffebryggare", 199.9),
                     new Item("Vattenkokare", 49.9),
-                    new Item("Vitlökspress", 19.9)
-            ));
+                    new Item("Vitlökspress", 19.9),
+                    new Item("Brödrost", 299.9),
+                    new Item("Mikrovågsugn", 699.9),
+                    new Item("Kylskåp", 3999.9),
+                    new Item("Diskmaskin", 3499.9),
+                    new Item("Torrställ", 159.9),
+                    new Item("Köksvåg", 69.9),
+                    new Item("Kökskniv", 129.9),
+                    new Item("Skärbräda", 39.9),
+                    new Item("Stekpanna", 249.9),
+                    new Item("Kastrull", 199.9),
+                    new Item("Ugn", 2999.9),
+                    new Item("Köksfläkt", 2499.9),
+                    new Item("Mixer", 499.9),
+                    new Item("Slow cooker", 599.9),
+                    new Item("Kaffekvarn", 299.9),
+                    new Item("Frys", 4199.9),
+                    new Item("Hushållsassistent", 2299.9),
+                    new Item("Riskokare", 399.9),
+                    new Item("Multikokare", 1499.9),
+                    new Item("Vakuumpackare", 799.9),
+                    new Item("Wokpanna", 599.9),
+                    new Item("Äggkokare", 99.9),
+                    new Item("Citruspress", 199.9),
+                    new Item("Espressomaskin", 2999.9),
+                    new Item("Smörgåsgrill", 399.9),
+                    new Item("Grillpanna", 299.9),
+                    new Item("Soppkastrull", 599.9),
+                    new Item("Salladsslunga", 149.9),
+                    new Item("Matberedare", 1099.9),
+                    new Item("Iskubsbehållare", 29.9),
+                    new Item("Vinöppnare", 59.9)
+            );
 
-            Customer customer1 = customerRepository.findById(1L).get();
-            customer1.addNewOrder(new CustomerOrder(LocalDate.now()));
-            customerRepository.save(customer1);
 
-            Customer customer2 = customerRepository.findById(3L).get();
-            customer2.addNewOrder(new CustomerOrder(LocalDate.now()));
-            customer2.addNewOrder(new CustomerOrder(LocalDate.now()));
-            customerRepository.save(customer2);
+            itemRepository.saveAll(newItems);
 
-            CustomerOrder order1 = customerOrderRepository.findById(1L).get();
-            order1.addOrderEntry(new OrderEntry(itemRepository.findById(4L).get(), 3));
-            customerOrderRepository.save(order1);
+            var customersInDb = customerRepository.findAll();
 
-            CustomerOrder order2 = customerOrderRepository.findById(2L).get();
-            order2.addOrderEntry(new OrderEntry(itemRepository.findById(2L).get(), 5));
-            order2.addOrderEntry(new OrderEntry(itemRepository.findById(3L).get(), 2));
-            customerOrderRepository.save(order2);
+            customersInDb.forEach(customer -> {
+                customer.addNewOrder(new CustomerOrder(LocalDate.now()));
+                customerRepository.save(customer);
+            });
 
+            var ordersInDb = customerOrderRepository.findAll();
+            var itemsInDb = itemRepository.findAll();
+
+            ordersInDb.forEach(order -> {
+                var orderItems = (int) (Math.random() * 5) + 1;
+                Supplier<Integer> quantityOfItem = () -> (int) (Math.random() * 3) + 1;
+
+                for (int i = 0; i < orderItems; i++) {
+                    var randomItem = itemsInDb.get((int) (Math.random() * itemsInDb.size()));
+                    order.addOrderEntry(new OrderEntry(randomItem, quantityOfItem.get()));
+                }
+                customerOrderRepository.save(order);
+            });
         };
     }
 

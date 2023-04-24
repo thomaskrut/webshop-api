@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(path="/thyme")
 public class ThymeController {
 
-    private CustomerRepository customerRepository;
-    private ItemRepository itemRepository;
-    private CustomerOrderRepository orderRepository;
+    private final CustomerRepository customerRepository;
+    private final ItemRepository itemRepository;
+    private final CustomerOrderRepository orderRepository;
 
     public ThymeController(CustomerRepository customerRepository, ItemRepository itemRepository, CustomerOrderRepository orderRepository) {
         this.customerRepository = customerRepository;
