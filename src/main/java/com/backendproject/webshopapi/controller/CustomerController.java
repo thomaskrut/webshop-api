@@ -13,7 +13,7 @@ import java.util.List;
 public class CustomerController {
 
 
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     public CustomerController(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
