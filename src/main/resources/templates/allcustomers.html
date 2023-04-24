@@ -41,11 +41,13 @@
             <td>First Name</td>
             <td>Last Name</td>
             <td>SSN</td>
+            <td style="text-align: right">Orders</td>
         </tr>
         <tr th:each="cus : ${allCustomersList}">
             <td th:text="${cus.firstName}"></td>
             <td th:text="${cus.lastName}"></td>
             <td th:text="${cus.ssn}"></td>
+            <td th:text="${cus.orders.size()}" style="text-align: right"></td>
         </tr>
         </tbody>
     </table>

@@ -93,7 +93,9 @@ public class WebshopApiApplication {
             var customersInDb = customerRepository.findAll();
 
             customersInDb.forEach(customer -> {
-                customer.addNewOrder(new CustomerOrder(LocalDate.now()));
+                for (int i = 0; i < (int) (Math.random() * 5) + 1; i++) {
+                    customer.addNewOrder(new CustomerOrder(LocalDate.now().minusDays((int) (Math.random() * 500) + 1)));
+                }
                 customerRepository.save(customer);
             });
 
