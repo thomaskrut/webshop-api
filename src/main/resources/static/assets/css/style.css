@@ -124,13 +124,6 @@ body {
     border-color: #777;
 }
 
-.form-control i {
-    visibility: hidden;
-    position: absolute;
-    top: 40px;
-    right: 10px;
-}
-
 #confirm-button {
     font-weight: bold;
     width: 100%;
