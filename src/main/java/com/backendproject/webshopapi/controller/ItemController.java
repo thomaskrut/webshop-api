@@ -4,6 +4,8 @@ import com.backendproject.webshopapi.model.*;
 import com.backendproject.webshopapi.repository.CustomerOrderRepository;
 import com.backendproject.webshopapi.repository.CustomerRepository;
 import com.backendproject.webshopapi.repository.ItemRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -34,22 +36,28 @@ public class ItemController {
     }
 
     @PostMapping("/items")
-    public Item createItem(@RequestBody Item item) {
-        return itemRepository.save(item);
+    public ResponseEntity<String> createItem(@RequestBody Item item) {
+
+        if (item.getName().isBlank()) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid product name");
+
+        if (item.getPrice() < 0) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Price must be 0 or more");
+
+        itemRepository.save(item);
+        return ResponseEntity.ok("Product added");
     }
 
     @PostMapping("/items/buy")
-    public String buyItem(@RequestBody AddItemRequest request) {
+    public ResponseEntity<String> buyItem(@RequestBody AddItemRequest request) {
 
         Item item = itemRepository.findById(request.getItemId()).orElse(null);
-        if (item == null) return "Product not found";
+        if (item == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Product not found");
 
         Customer customer = customerRepository.findById(request.getCustomerId()).orElse(null);
-        if (customer == null) return "Customer not found";
+        if (customer == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Customer not found");
 
         CustomerOrder order = customerOrderRepository.findById(request.getOrderId()).orElse(null);
         if (order != null) {
-            if (order.getCustomer().getId() != request.getCustomerId()) return "Customer does not own order";
+            if (order.getCustomer().getId() != request.getCustomerId()) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Customer does not own order");
         } else {
             order = customer.addNewOrder(new CustomerOrder(LocalDate.now()));
         }
@@ -58,7 +66,7 @@ public class ItemController {
 
         customerOrderRepository.save(order);
 
-        return "Product added to order #" + order.getId();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Product added to order #" + order.getId());
     }
 
 
