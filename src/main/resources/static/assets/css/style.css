@@ -30,6 +30,10 @@ a:hover {
     text-decoration: underline;
 }
 
+a.active {
+    text-decoration: underline;
+}
+
 /* --------------- Navbar ---------------- */
 .navbar {
     position: sticky;

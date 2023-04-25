@@ -37,11 +37,11 @@
                 <table class="table-style">
                     <tbody>
                     <tr class="table-header">
-                        <td>Order ID</td>
-                        <td>Customer ID</td>
-                        <td>Order Date</td>
-                        <td class="right">Items</td>
-                        <td class="right">Total</td>
+                        <td><a th:class="${${sortby} == 'id' ? 'active' : 'passive'}" th:href="@{/thyme/orders(customerId=${customerId}, sortby='id', order=${newOrder})}">Order ID</a></td>
+                        <td><a th:href="@{/thyme/orders(customerId=${customerId}, sortby='customer', order=${newOrder})}">Customer ID</a></td>
+                        <td><a th:href="@{/thyme/orders(customerId=${customerId}, sortby='date', order=${newOrder})}">Order date</a></td>
+                        <td class="right"><a th:href="@{/thyme/orders(customerId=${customerId}, sortby='items', order=${newOrder})}">Items</a></td>
+                        <td class="right"><a th:href="@{/thyme/orders(customerId=${customerId}, sortby='total', order=${newOrder})}">Total</a></td>
                     </tr>
                     <tr th:each="ord : ${allOrdersList}">
                         <td><a th:href="@{/thyme/order(orderId=${ord.id})}" th:text="${ord.id}"></a></td>

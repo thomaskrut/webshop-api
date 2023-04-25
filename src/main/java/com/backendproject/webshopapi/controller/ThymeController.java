@@ -79,13 +79,25 @@ public class ThymeController {
             orders.sort(Comparator.comparing(CustomerOrder::getTotal));
         } else if (sortby.equals("items")) {
             orders.sort(Comparator.comparing(CustomerOrder::getItems));
+        } else if (sortby.equals("customer")) {
+            orders.sort((o1, o2) -> (int) (o1.getCustomer().getId() - o2.getCustomer().getId()));
         }
 
         if (order.equals("desc")) {
             Collections.reverse(orders);
         }
 
+        String newOrder;
 
+        if (order.equals("asc")) {
+            newOrder = "desc";
+        } else {
+            newOrder = "asc";
+        }
+
+        model.addAttribute("customerId", customerId);
+        model.addAttribute("sortby", sortby);
+        model.addAttribute("newOrder", newOrder);
         model.addAttribute("allOrdersList", orders);
         model.addAttribute("idTitle", "id");
         model.addAttribute("dateTitle", "date");
