@@ -38,12 +38,14 @@
                     <tbody>
                     <tr class="table-header">
                         <td>Order ID</td>
+                        <td>Customer ID</td>
                         <td>Order Date</td>
                         <td class="right">Items</td>
                         <td class="right">Total</td>
                     </tr>
                     <tr th:each="ord : ${allOrdersList}">
                         <td><a th:href="@{/thyme/order(orderId=${ord.id})}" th:text="${ord.id}"></a></td>
+                        <td><a th:href="@{/thyme/orders(customerId=${ord.customer.id})}" th:text="${ord.customer.id}"></a></td>
                         <td th:text="${ord.date}"></td>
                         <td th:text="${ord.items}" class="right"></td>
                         <td th:text="${ord.total}" class="right"></td>
