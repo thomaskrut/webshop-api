@@ -32,10 +32,11 @@ public class ThymeController {
     }
 
 
-    @RequestMapping("/")
+    @RequestMapping({"/", "/index"})
     public String index() {
         return "index.html";
     }
+
 
     @RequestMapping("/customers")
     public String getAllCustomers(Model model) {
@@ -62,7 +63,7 @@ public class ThymeController {
     public String getAllOrders(
             @RequestParam(required = false, defaultValue = "-1") long customerId,
             @RequestParam(required = false, defaultValue = "id") String sortby,
-            @RequestParam(required = false, defaultValue = "desc") String order,
+            @RequestParam(required = false, defaultValue = "asc") String order,
             Model model) {
 
         List<CustomerOrder> orders;
