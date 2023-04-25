@@ -6,6 +6,7 @@ import com.backendproject.webshopapi.model.Item;
 import com.backendproject.webshopapi.repository.CustomerOrderRepository;
 import com.backendproject.webshopapi.repository.CustomerRepository;
 import com.backendproject.webshopapi.repository.ItemRepository;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,13 +50,30 @@ public class ThymeController {
     }
 
     @RequestMapping("/orders")
-    public String getAllOrders(Model model) {
-        Iterable<CustomerOrder> orders = orderRepository.findAll();
+    public String getAllOrders(@RequestParam(required = false, defaultValue = "-1") long customerId, Model model) {
+
+        Iterable<CustomerOrder> orders;
+
+        if (customerId > 0) {
+            orders = orderRepository.findByCustomerId(customerId);
+            model.addAttribute("orderTitle", "ORDERS FOR CUSTOMER ID: " + customerId);
+        } else {
+            orders = orderRepository.findAll();
+            model.addAttribute("orderTitle", "ALL ORDERS");
+        }
+
         model.addAttribute("allOrdersList", orders);
         model.addAttribute("idTitle", "id");
         model.addAttribute("dateTitle", "date");
-        model.addAttribute("orderTitle", "ALL ORDERS");
         return "allorders.html";
+    }
+
+    @RequestMapping("/order")
+    public String getOrder(@RequestParam long orderId, Model model) {
+        CustomerOrder order = orderRepository.findById(orderId).orElse(null);
+        model.addAttribute("order", order);
+        model.addAttribute("orderTitle", "ORDER ID: " + orderId);
+        return "order.html";
     }
 
     @RequestMapping("/confirmitem")
