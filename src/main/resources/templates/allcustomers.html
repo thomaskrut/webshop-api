@@ -47,7 +47,7 @@
             <td th:text="${cus.firstName}"></td>
             <td th:text="${cus.lastName}"></td>
             <td th:text="${cus.ssn}"></td>
-            <td th:text="${cus.orders == null ? '0' : cus.orders.size()}" style="text-align: right"></td>
+            <td style="text-align: right"><a th:href="@{/thyme/orders(customerId=${cus.id})}" th:text="${cus.orders == null ? '0' : cus.orders.size()}"></a></td>
         </tr>
         </tbody>
     </table>
