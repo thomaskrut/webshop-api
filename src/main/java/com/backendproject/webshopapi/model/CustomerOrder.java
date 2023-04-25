@@ -48,5 +48,13 @@ public class CustomerOrder {
 
     }
 
+    public String getTotal() {
+        return String.format("%.2f", orderEntries.stream().mapToDouble(e -> e.getItem().getPrice() * e.getQuantity()).sum());
+    }
+
+    public int getItems() {
+        return orderEntries.stream().mapToInt(OrderEntry::getQuantity).sum();
+    }
+
 
 }

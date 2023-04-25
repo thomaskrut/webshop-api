@@ -39,14 +39,14 @@
       <tr class="table-header">
         <td>Product ID</td>
         <td>Product name</td>
-        <td>Price</td>
-        <td>Quantity</td>
+        <td class="right">Price</td>
+        <td class="right">Quantity</td>
       </tr>
       <tr th:each="entry : ${order.orderEntries}">
         <td th:text="${entry.item.id}"></td>
         <td th:text="${entry.item.name}"></td>
-        <td th:text="${entry.item.price}"></td>
-        <td th:text="${entry.quantity}"></td>
+        <td th:text="${entry.item.priceString}" class="right"></td>
+        <td th:text="${entry.quantity}" class="right"></td>
       </tr>
       </tbody>
     </table>
