@@ -42,8 +42,8 @@ class CustomerControllerTest {
 
         @Test
         void getAllCustomers() throws Exception {
-                System.out.println(this.mockMvc.perform(get("/customers")));
-                this.mockMvc.perform(get("/customers"))
+                System.out.println(this.mockMvc.perform(get("/api/customers")));
+                this.mockMvc.perform(get("/api/customers"))
                         .andExpect(status().isOk())
                         .andExpect(content().json("[{\"firstName\":\"kalle\",\"lastName\":\"anka\",\"ssn\":\"123\",\"orders\":null,\"id\":1}," +
                                 "{\"firstName\":\"musse\",\"lastName\":\"pigg\",\"ssn\":\"456\",\"orders\":null,\"id\":2}," +
@@ -52,7 +52,7 @@ class CustomerControllerTest {
 
         @Test
         void getCustomerById() throws Exception {
-                this.mockMvc.perform(get("/customers/1"))
+                this.mockMvc.perform(get("/api/customers/1"))
                         .andExpect(status().isOk())
                         .andExpect(content().json("{\"firstName\":\"kalle\",\"lastName\":\"anka\",\"ssn\":\"123\",\"orders\":null,\"id\":1}"));
         }

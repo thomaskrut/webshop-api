@@ -19,7 +19,6 @@ import java.util.Comparator;
 import java.util.List;
 
 @Controller
-@RequestMapping(path = "/thyme")
 public class ThymeController {
 
     private final CustomerRepository customerRepository;
@@ -33,7 +32,7 @@ public class ThymeController {
     }
 
 
-    @RequestMapping("/index")
+    @RequestMapping("/")
     public String index() {
         return "index.html";
     }

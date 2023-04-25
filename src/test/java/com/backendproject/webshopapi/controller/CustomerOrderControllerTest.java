@@ -66,7 +66,7 @@ public class CustomerOrderControllerTest {
 		var ordersJson = """
 			[{"id":1,"date":"2022-04-07","orderEntries":[{"id":1,"quantity":2,"item":{"id":23,"name":"Multikokare","price":1499.9}}]},{"id":2,"date":"2023-03-04","orderEntries":[{"id":2,"quantity":2,"item":{"id":2,"name":"Kaffebryggare","price":199.9}},{"id":3,"quantity":2,"item":{"id":6,"name":"Mikrovågsugn","price":699.9}},{"id":4,"quantity":3,"item":{"id":15,"name":"Ugn","price":2999.9}}]},{"id":3,"date":"2022-01-12","orderEntries":[{"id":5,"quantity":2,"item":{"id":1,"name":"Stavmixer","price":89.9}},{"id":6,"quantity":1,"item":{"id":28,"name":"Espressomaskin","price":2999.9}},{"id":7,"quantity":3,"item":{"id":3,"name":"Vattenkokare","price":49.9}},{"id":8,"quantity":5,"item":{"id":17,"name":"Mixer","price":499.9}}]}]""";
 
-		mockMvc.perform(get("/orders"))
+		mockMvc.perform(get("/api/orders"))
 				.andExpect(status().isOk())
 				.andExpect(content().json(ordersJson));
 	}
@@ -76,7 +76,7 @@ public class CustomerOrderControllerTest {
 		var ordersJson = """
 						[{"id":1,"date":"2022-04-07","orderEntries":[{"id":1,"quantity":2,"item":{"id":23,"name":"Multikokare","price":1499.9}}]},{"id":3,"date":"2022-01-12","orderEntries":[{"id":5,"quantity":2,"item":{"id":1,"name":"Stavmixer","price":89.9}},{"id":6,"quantity":1,"item":{"id":28,"name":"Espressomaskin","price":2999.9}},{"id":7,"quantity":3,"item":{"id":3,"name":"Vattenkokare","price":49.9}},{"id":8,"quantity":5,"item":{"id":17,"name":"Mixer","price":499.9}}]}]""";
 
-		mockMvc.perform(get("/orders/1"))
+		mockMvc.perform(get("/api/orders/1"))
 				.andExpect(status().isOk())
 				.andExpect(content().json(ordersJson));
 	}
