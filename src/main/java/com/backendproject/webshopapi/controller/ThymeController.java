@@ -13,8 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 @Controller
-@RequestMapping(path="/thyme")
+@RequestMapping(path = "/thyme")
 public class ThymeController {
 
     private final CustomerRepository customerRepository;
@@ -50,9 +55,13 @@ public class ThymeController {
     }
 
     @RequestMapping("/orders")
-    public String getAllOrders(@RequestParam(required = false, defaultValue = "-1") long customerId, Model model) {
+    public String getAllOrders(
+            @RequestParam(required = false, defaultValue = "-1") long customerId,
+            @RequestParam(required = false, defaultValue = "id") String sortby,
+            @RequestParam(required = false, defaultValue = "desc") String order,
+            Model model) {
 
-        Iterable<CustomerOrder> orders;
+        List<CustomerOrder> orders;
 
         if (customerId > 0) {
             orders = orderRepository.findByCustomerId(customerId);
@@ -61,6 +70,21 @@ public class ThymeController {
             orders = orderRepository.findAll();
             model.addAttribute("orderTitle", "ALL ORDERS");
         }
+
+        if (sortby.equals("id")) {
+            orders.sort((o1, o2) -> (int) (o1.getId() - o2.getId()));
+        } else if (sortby.equals("date")) {
+            orders.sort(Comparator.comparing(CustomerOrder::getDate));
+        } else if (sortby.equals("total")) {
+            orders.sort(Comparator.comparing(CustomerOrder::getTotal));
+        } else if (sortby.equals("items")) {
+            orders.sort(Comparator.comparing(CustomerOrder::getItems));
+        }
+
+        if (order.equals("desc")) {
+            Collections.reverse(orders);
+        }
+
 
         model.addAttribute("allOrdersList", orders);
         model.addAttribute("idTitle", "id");
@@ -116,7 +140,6 @@ public class ThymeController {
         itemRepository.save(i);
         return confirmItem(model, i, "Item successfully added");
     }
-
 
 
 }

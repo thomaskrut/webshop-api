@@ -48,7 +48,7 @@
                         <td><a th:href="@{/thyme/orders(customerId=${ord.customer.id})}" th:text="${ord.customer.id}"></a></td>
                         <td th:text="${ord.date}"></td>
                         <td th:text="${ord.items}" class="right"></td>
-                        <td th:text="${ord.total}" class="right"></td>
+                        <td th:text="${ord.totalString}" class="right"></td>
                     </tr>
                     </tbody>
                 </table>
