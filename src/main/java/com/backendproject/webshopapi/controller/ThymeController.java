@@ -68,6 +68,14 @@ public class ThymeController {
         return "allorders.html";
     }
 
+    @RequestMapping("/order")
+    public String getOrder(@RequestParam long orderId, Model model) {
+        CustomerOrder order = orderRepository.findById(orderId).orElse(null);
+        model.addAttribute("order", order);
+        model.addAttribute("orderTitle", "ORDER ID: " + orderId);
+        return "order.html";
+    }
+
     @RequestMapping("/confirmitem")
     public String confirmItem(Model model, Item i, String message) {
         model.addAttribute("item", i);
