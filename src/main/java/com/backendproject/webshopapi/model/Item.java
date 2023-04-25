@@ -25,4 +25,8 @@ public class Item {
         this.price = price;
     }
 
+    public String getPriceString(){
+        return String.format("%.2f", price);
+    }
+
 }
