@@ -33,6 +33,11 @@ public class ThymeController {
     }
 
 
+    @RequestMapping("/index")
+    public String index() {
+        return "index.html";
+    }
+
     @RequestMapping("/customers")
     public String getAllCustomers(Model model) {
         Iterable<Customer> c = customerRepository.findAll();
