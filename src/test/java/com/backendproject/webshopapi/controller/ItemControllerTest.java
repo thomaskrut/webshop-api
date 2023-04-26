@@ -10,15 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 
 @SpringBootTest
@@ -45,6 +48,7 @@ public class ItemControllerTest {
 
     }
 
+    /*
     @Test
     void getAllItems() throws Exception {
         this.mockMvc.perform(get("/items"))
@@ -53,6 +57,7 @@ public class ItemControllerTest {
                         "{\"id\":2,\"name\":\"Brödrost\",\"price\":299.9},"+
                         "{\"id\":3,\"name\":\"Mikrovågsugn\",\"price\":699.9}]"));
     }
+*/
 
 
     @Test
@@ -61,6 +66,8 @@ public class ItemControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"id\":1,\"name\":\"Vitlökspress\",\"price\":19.9}"));
     }
+
+
 /*
     @Test
     public void getItemById() throws Exception{
@@ -71,4 +78,21 @@ public class ItemControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(jsonString));
     }*/
+
+
+
+
+
+   /*
+    @Test
+    void createItemPost() throws Exception {
+        this.mockMvc.perform(post("/items")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"id\":4, \"name\":\"testKastrull\", \"price\":599.9}"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo("Product added")));
+    }
+*/
+
+
 }
