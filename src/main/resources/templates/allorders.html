@@ -44,7 +44,7 @@
                         <td class="right"><a th:class="${sortby == 'items' ? 'active' : 'passive'}" th:href="@{/orders(customerId=${customerId}, sortby='items', order=${newOrder})}">Items</a></td>
                         <td class="right"><a th:class="${sortby == 'total' ? 'active' : 'passive'}" th:href="@{/orders(customerId=${customerId}, sortby='total', order=${newOrder})}">Total</a></td>
                     </tr>
-                    <tr th:each="ord : ${allOrdersList}">
+                    <tr th:each="ord : ${allOrdersList}" class="clickable">
                         <td><a th:href="@{/order(orderId=${ord.id})}" th:text="${ord.id}"></a></td>
                         <td><a th:href="@{/orders(customerId=${ord.customer.id})}" th:text="${ord.customer.id}"></a></td>
                         <td th:text="${ord.date}"></td>

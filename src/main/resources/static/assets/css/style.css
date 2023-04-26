@@ -186,3 +186,8 @@ td.right {
     text-align: right;
 }
 
+tr.clickable:hover {
+    background-color: #ddd;
+    cursor: pointer;
+}
+
