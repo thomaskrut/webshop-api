@@ -19,7 +19,6 @@ import java.util.Comparator;
 import java.util.List;
 
 @Controller
-@RequestMapping(path = "/thyme")
 public class ThymeController {
 
     private final CustomerRepository customerRepository;
@@ -30,6 +29,12 @@ public class ThymeController {
         this.customerRepository = customerRepository;
         this.itemRepository = itemRepository;
         this.orderRepository = orderRepository;
+    }
+
+
+    @RequestMapping({"/", "/index"})
+    public String index() {
+        return "index.html";
     }
 
 
@@ -58,7 +63,7 @@ public class ThymeController {
     public String getAllOrders(
             @RequestParam(required = false, defaultValue = "-1") long customerId,
             @RequestParam(required = false, defaultValue = "id") String sortby,
-            @RequestParam(required = false, defaultValue = "desc") String order,
+            @RequestParam(required = false, defaultValue = "asc") String order,
             Model model) {
 
         List<CustomerOrder> orders;
