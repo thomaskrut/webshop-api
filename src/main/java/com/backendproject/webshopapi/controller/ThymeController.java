@@ -110,8 +110,7 @@ public class ThymeController {
     }
 
     @GetMapping("/addcustomer")
-    public String addCustomerForm(Model model) {
-        model.addAttribute("customer", new Customer());
+    public String addCustomerForm() {
         return "addcustomer.html";
     }
 
