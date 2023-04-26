@@ -83,13 +83,7 @@ public class ThymeController {
             Collections.reverse(orders);
         }
 
-        String newOrder;
-
-        if (order.equals("asc")) {
-            newOrder = "desc";
-        } else {
-            newOrder = "asc";
-        }
+        String newOrder = (order.equals("asc")) ? "desc" : "asc";
 
         model.addAttribute("customerId", customerId);
         model.addAttribute("sortby", sortby);
