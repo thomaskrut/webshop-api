@@ -1,9 +1,5 @@
 package com.backendproject.webshopapi.controller;
 
-import com.backendproject.webshopapi.model.Item;
-import com.backendproject.webshopapi.repository.ItemRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +19,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
+import com.backendproject.webshopapi.model.Item;
+import com.backendproject.webshopapi.repository.ItemRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc

@@ -92,6 +92,10 @@ public class WebshopApiApplication {
 
             var customersInDb = customerRepository.findAll();
 
+            if (customersInDb.size() == 0) {
+                return;
+            }
+
             customersInDb.forEach(customer -> {
                 for (int i = 0; i < (int) (Math.random() * 5) + 1; i++) {
                     customer.addNewOrder(new CustomerOrder(LocalDate.now().minusDays((int) (Math.random() * 500) + 1)));
@@ -100,7 +104,16 @@ public class WebshopApiApplication {
             });
 
             var ordersInDb = customerOrderRepository.findAll();
+
+            if (ordersInDb.size() == 0) {
+                return;
+            }
+
             var itemsInDb = itemRepository.findAll();
+
+            if (itemsInDb.size() == 0) {
+                return;
+            }
 
             ordersInDb.forEach(order -> {
                 var orderItems = (int) (Math.random() * 5) + 1;
