@@ -14,8 +14,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,6 +36,9 @@ public class ItemControllerTest {
 
     @MockBean
     private ItemRepository mockRepo;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     public void inti() {
@@ -71,7 +76,6 @@ public class ItemControllerTest {
 /*
     @Test
     public void getItemById() throws Exception{
-        ObjectMapper objectMapper = new ObjectMapper();
         Item item = new Item(1L,"Vitlökspress", 19.9);
         String jsonString = objectMapper.writeValueAsString(item);
         this.mockMvc.perform(get("/items/1"))
@@ -83,14 +87,23 @@ public class ItemControllerTest {
 
 
 
-   /*
+/*
     @Test
-    void createItemPost() throws Exception {
+    void createItemPost_shouldReturnOK() throws Exception {
+    Item item = new Item(1L,"testKastrull", 599.9);
+    String itemJson = objectMapper.writeValueAsString(item);
         this.mockMvc.perform(post("/items")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":4, \"name\":\"testKastrull\", \"price\":599.9}"))
+                        .content(itemJson))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("Product added")));
+
+
+        // Verify that the item was saved to the repository
+        List<Item> items = mockRepo.findAll();
+        assertThat(items).hasSize(4);
+        assertThat(items.get(3).getName()).isEqualTo("testKastrull");
+        assertThat(items.get(3).getPrice()).isEqualTo(599.9);
     }
 */
 
