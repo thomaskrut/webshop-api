@@ -47,7 +47,7 @@ public class CustomerOrder {
                 .filter(e -> e.getItem().getId() == orderEntry.getItem().getId())
                 .findFirst().ifPresentOrElse(e -> e.setQuantity(e.getQuantity() + orderEntry.getQuantity()), () -> orderEntries.add(orderEntry));
 
-        orderEntries.stream().filter(e -> e.getQuantity() < 0).toList().forEach(orderEntries::remove);
+        orderEntries.stream().filter(e -> e.getQuantity() <= 0).toList().forEach(orderEntries::remove);
 
 
     }

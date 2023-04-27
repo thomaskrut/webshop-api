@@ -98,6 +98,7 @@ public class ThymeController {
     @RequestMapping("/order")
     public String getOrder(@RequestParam long orderId, Model model) {
         CustomerOrder order = orderRepository.findById(orderId).orElse(null);
+        model.addAttribute("items", itemRepository.findAll());
         model.addAttribute("order", order);
         model.addAttribute("orderTitle", "ORDER ID: " + orderId);
         return "order.html";
@@ -145,12 +146,19 @@ public class ThymeController {
 
     @GetMapping("/adjustorder")
     public String adjustOrder(@RequestParam long orderId,
-                              @RequestParam long itemId,
+                              @RequestParam String itemId,
                               @RequestParam int quantity,
                               Model model) {
 
+        long itemIdLong;
+        try {
+            itemIdLong = Long.parseLong(itemId);
+        } catch (NumberFormatException e) {
+            return getOrder(orderId, model);
+        }
+
         CustomerOrder order = orderRepository.findById(orderId).orElse(null);
-        Item item = itemRepository.findById(itemId).orElse(null);
+        Item item = itemRepository.findById(itemIdLong).orElse(null);
 
         if (item == null || order == null) return getOrder(orderId, model);
 

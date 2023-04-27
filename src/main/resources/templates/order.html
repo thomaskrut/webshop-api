@@ -58,6 +58,29 @@
             </tr>
             </tbody>
         </table>
+
+        <br><br>
+
+        <form id="form" class="form" action="#" th:action="@{/thyme/adjustorder}" method="get">
+            <div class="form-control">
+
+                <label for="item">Product ID (type to search)</label>
+                <input list="items" name="itemId" id="item" placeholder="">
+                <datalist id="items">
+                    <option th:each="item : ${items}" th:value="${item.id}" th:label="${item.name}" th:text="${item.name}"></option>
+                </datalist>
+                <input type="hidden" id="orderId" name="orderId" th:value="${order.id}">
+                <input type="hidden" id="quantity" name="quantity" value="1">
+
+
+                <div class="form-footer">
+                    <input id="confirm-button" type="submit" value="Add product to order">
+                </div>
+            </div>
+        </form>
+
+
+
     </div>
 
 </div>
