@@ -53,6 +53,21 @@
                     </tr>
                     </tbody>
                 </table>
+
+                <div th:if="${customerId} >= 0">
+
+                    <br><br>
+
+                    <form id="form2" class="form" action="#" th:action="@{/thyme/neworder}" method="get">
+                        <div class="form-control" >
+                            <input type="hidden" name="customerId" th:value="${customerId}">
+                            <input id="confirm-button" type="submit" value="New order">
+                        </div>
+                    </form>
+
+                </div>
+
+
             </div>
         </div>
     </div>

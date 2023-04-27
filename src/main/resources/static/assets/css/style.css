@@ -182,7 +182,34 @@ tr:nth-child(even) {
     font-weight: bold;
 }
 
+td {
+    border-width: 2px;
+    border-style: solid;
+    border-color: #fff;
+}
+
 td.right {
     text-align: right;
+}
+
+td.adjust-quantity {
+    font-size: 16px;
+    font-weight: bold;
+    width: 24px;
+    text-align: center;
+    background-color: var(--mainGrey);
+
+
+}
+
+td.adjust-quantity a {
+    color: var(--mainBlack);
+    text-decoration: none;
+}
+
+td.adjust-quantity:hover {
+    background-color: var(--primaryColor);
+    color: var(--mainWhite);
+
 }
 

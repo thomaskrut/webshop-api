@@ -3,6 +3,7 @@ package com.backendproject.webshopapi.controller;
 import com.backendproject.webshopapi.model.Customer;
 import com.backendproject.webshopapi.model.CustomerOrder;
 import com.backendproject.webshopapi.model.Item;
+import com.backendproject.webshopapi.model.OrderEntry;
 import com.backendproject.webshopapi.repository.CustomerOrderRepository;
 import com.backendproject.webshopapi.repository.CustomerRepository;
 import com.backendproject.webshopapi.repository.ItemRepository;
@@ -13,12 +14,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 @Controller
+@RequestMapping(path = "/thyme")
 public class ThymeController {
 
     private final CustomerRepository customerRepository;
@@ -32,13 +35,7 @@ public class ThymeController {
     }
 
 
-    @RequestMapping({"/", "/index"})
-    public String index() {
-        return "index.html";
-    }
-
-
-    @RequestMapping("/customers")
+    @RequestMapping({"/customers", "/addorder"})
     public String getAllCustomers(Model model) {
         Iterable<Customer> c = customerRepository.findAll();
         model.addAttribute("allCustomersList", c);
@@ -63,7 +60,7 @@ public class ThymeController {
     public String getAllOrders(
             @RequestParam(required = false, defaultValue = "-1") long customerId,
             @RequestParam(required = false, defaultValue = "id") String sortby,
-            @RequestParam(required = false, defaultValue = "asc") String order,
+            @RequestParam(required = false, defaultValue = "desc") String order,
             Model model) {
 
         List<CustomerOrder> orders;
@@ -76,29 +73,19 @@ public class ThymeController {
             model.addAttribute("orderTitle", "ALL ORDERS");
         }
 
-        if (sortby.equals("id")) {
-            orders.sort((o1, o2) -> (int) (o1.getId() - o2.getId()));
-        } else if (sortby.equals("date")) {
-            orders.sort(Comparator.comparing(CustomerOrder::getDate));
-        } else if (sortby.equals("total")) {
-            orders.sort(Comparator.comparing(CustomerOrder::getTotal));
-        } else if (sortby.equals("items")) {
-            orders.sort(Comparator.comparing(CustomerOrder::getItems));
-        } else if (sortby.equals("customer")) {
-            orders.sort((o1, o2) -> (int) (o1.getCustomer().getId() - o2.getCustomer().getId()));
+        switch (sortby) {
+            case "id" -> orders.sort((o1, o2) -> (int) (o1.getId() - o2.getId()));
+            case "date" -> orders.sort(Comparator.comparing(CustomerOrder::getDate));
+            case "total" -> orders.sort(Comparator.comparing(CustomerOrder::getTotal));
+            case "items" -> orders.sort(Comparator.comparing(CustomerOrder::getItems));
+            case "customer" -> orders.sort((o1, o2) -> (int) (o1.getCustomer().getId() - o2.getCustomer().getId()));
         }
 
         if (order.equals("desc")) {
             Collections.reverse(orders);
         }
 
-        String newOrder;
-
-        if (order.equals("asc")) {
-            newOrder = "desc";
-        } else {
-            newOrder = "asc";
-        }
+        String newOrder = (order.equals("asc")) ? "desc" : "asc";
 
         model.addAttribute("customerId", customerId);
         model.addAttribute("sortby", sortby);
@@ -112,6 +99,7 @@ public class ThymeController {
     @RequestMapping("/order")
     public String getOrder(@RequestParam long orderId, Model model) {
         CustomerOrder order = orderRepository.findById(orderId).orElse(null);
+        model.addAttribute("items", itemRepository.findAll());
         model.addAttribute("order", order);
         model.addAttribute("orderTitle", "ORDER ID: " + orderId);
         return "order.html";
@@ -125,8 +113,7 @@ public class ThymeController {
     }
 
     @GetMapping("/addcustomer")
-    public String addCustomerForm(Model model) {
-        model.addAttribute("customer", new Customer());
+    public String addCustomerForm() {
         return "addcustomer.html";
     }
 
@@ -157,6 +144,42 @@ public class ThymeController {
         itemRepository.save(i);
         return confirmItem(model, i, "Item successfully added");
     }
+
+    @GetMapping("/adjustorder")
+    public String adjustOrder(@RequestParam long orderId,
+                              @RequestParam String itemId,
+                              @RequestParam int quantity,
+                              Model model) {
+
+        long itemIdLong;
+        try {
+            itemIdLong = Long.parseLong(itemId);
+        } catch (NumberFormatException e) {
+            return getOrder(orderId, model);
+        }
+
+        CustomerOrder order = orderRepository.findById(orderId).orElse(null);
+        Item item = itemRepository.findById(itemIdLong).orElse(null);
+
+        if (item == null || order == null) return getOrder(orderId, model);
+
+        order.addOrderEntry(new OrderEntry(item, quantity));
+        orderRepository.save(order);
+        return getOrder(orderId, model);
+    }
+
+    @GetMapping("/neworder")
+    public String newOrder(@RequestParam long customerId, Model model) {
+        Customer c = customerRepository.findById(customerId).orElse(null);
+        if (c == null) return getAllOrders(-1, "id", "desc", model);
+        CustomerOrder order = new CustomerOrder(LocalDate.now());
+        orderRepository.save(order);
+        c.addNewOrder(order);
+        customerRepository.save(c);
+        return getOrder(order.getId(), model);
+
+    }
+
 
 
 }

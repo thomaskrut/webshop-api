@@ -67,7 +67,7 @@ public class ItemController {
 
         customerOrderRepository.save(order);
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Product added to order #" + order.getId());
+        return ResponseEntity.status(HttpStatus.OK).body("Product added to order #" + order.getId());
     }
 
 
