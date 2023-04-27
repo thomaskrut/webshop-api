@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -34,7 +35,7 @@ public class ThymeController {
     }
 
 
-    @RequestMapping("/customers")
+    @RequestMapping({"/customers", "/addorder"})
     public String getAllCustomers(Model model) {
         Iterable<Customer> c = customerRepository.findAll();
         model.addAttribute("allCustomersList", c);
@@ -166,6 +167,19 @@ public class ThymeController {
         orderRepository.save(order);
         return getOrder(orderId, model);
     }
+
+    @GetMapping("/neworder")
+    public String newOrder(@RequestParam long customerId, Model model) {
+        Customer c = customerRepository.findById(customerId).orElse(null);
+        if (c == null) return getAllOrders(-1, "id", "desc", model);
+        CustomerOrder order = new CustomerOrder(LocalDate.now());
+        orderRepository.save(order);
+        c.addNewOrder(order);
+        customerRepository.save(c);
+        return getOrder(order.getId(), model);
+
+    }
+
 
 
 }

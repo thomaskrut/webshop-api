@@ -67,7 +67,7 @@
                 <label for="item">Product ID (type to search)</label>
                 <input list="items" name="itemId" id="item" placeholder="">
                 <datalist id="items">
-                    <option th:each="item : ${items}" th:value="${item.id}" th:label="${item.name}" th:text="${item.name}"></option>
+                    <option th:each="item : ${items}" th:value="${item.id}" th:text="${item.id} + ' - ' + ${item.name}"></option>
                 </datalist>
                 <input type="hidden" id="orderId" name="orderId" th:value="${order.id}">
                 <input type="hidden" id="quantity" name="quantity" value="1">

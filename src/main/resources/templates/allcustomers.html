@@ -38,16 +38,20 @@
     <table class="table-style">
         <tbody>
         <tr class="table-header">
+            <td>ID</td>
             <td>First Name</td>
             <td>Last Name</td>
             <td>SSN</td>
             <td style="text-align: right">Orders</td>
+            <td></td>
         </tr>
         <tr th:each="cus : ${allCustomersList}">
+            <td th:text="${cus.id}"></td>
             <td th:text="${cus.firstName}"></td>
             <td th:text="${cus.lastName}"></td>
             <td th:text="${cus.ssn}"></td>
             <td style="text-align: right"><a th:href="@{/thyme/orders(customerId=${cus.id})}" th:text="${cus.orders == null ? '0' : cus.orders.size()}"></a></td>
+            <td class="adjust-quantity"><a th:href="@{/thyme/neworder(customerId=${cus.id})}">+</a></td>
         </tr>
         </tbody>
     </table>

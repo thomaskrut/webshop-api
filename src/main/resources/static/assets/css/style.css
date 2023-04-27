@@ -182,6 +182,12 @@ tr:nth-child(even) {
     font-weight: bold;
 }
 
+td {
+    border-width: 2px;
+    border-style: solid;
+    border-color: #fff;
+}
+
 td.right {
     text-align: right;
 }
@@ -192,9 +198,8 @@ td.adjust-quantity {
     width: 24px;
     text-align: center;
     background-color: var(--mainGrey);
-    border-width: 2px;
-    border-style: solid;
-    border-color: #fff;
+
+
 }
 
 td.adjust-quantity a {
