@@ -21,7 +21,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Controller
-@RequestMapping(path = "/thyme")
+
 public class ThymeController {
 
     private final CustomerRepository customerRepository;
@@ -34,8 +34,17 @@ public class ThymeController {
         this.orderRepository = orderRepository;
     }
 
+    @RequestMapping("/thyme/index")
+    public String getIndex() {
+        return "index.html";
+    }
 
-    @RequestMapping({"/customers", "/addorder"})
+    @RequestMapping("/")
+    public String redirect() {
+        return "redirect:/thyme/index";
+    }
+
+    @RequestMapping({"/thyme/customers", "/thyme/addorder"})
     public String getAllCustomers(Model model) {
         Iterable<Customer> c = customerRepository.findAll();
         model.addAttribute("allCustomersList", c);
@@ -46,7 +55,7 @@ public class ThymeController {
         return "allcustomers.html";
     }
 
-    @RequestMapping("/items")
+    @RequestMapping("/thyme/items")
     public String getAllItems(Model model) {
         Iterable<Item> i = itemRepository.findAll();
         model.addAttribute("allItemsList", i);
@@ -56,7 +65,7 @@ public class ThymeController {
         return "allitems.html";
     }
 
-    @RequestMapping("/orders")
+    @RequestMapping("/thyme/orders")
     public String getAllOrders(
             @RequestParam(required = false, defaultValue = "-1") long customerId,
             @RequestParam(required = false, defaultValue = "id") String sortby,
@@ -96,7 +105,7 @@ public class ThymeController {
         return "allorders.html";
     }
 
-    @RequestMapping("/order")
+    @RequestMapping("/thyme/order")
     public String getOrder(@RequestParam long orderId, Model model) {
         CustomerOrder order = orderRepository.findById(orderId).orElse(null);
         model.addAttribute("items", itemRepository.findAll());
@@ -105,19 +114,19 @@ public class ThymeController {
         return "order.html";
     }
 
-    @RequestMapping("/confirmitem")
+    @RequestMapping("/thyme/confirmitem")
     public String confirmItem(Model model, Item i, String message) {
         model.addAttribute("item", i);
         model.addAttribute("message", message);
         return "confirmitem.html";
     }
 
-    @GetMapping("/addcustomer")
+    @GetMapping("/thyme/addcustomer")
     public String addCustomerForm() {
         return "addcustomer.html";
     }
 
-    @GetMapping("/registercustomer")
+    @GetMapping("/thyme/registercustomer")
     public String addCustomer(@RequestParam String fname, @RequestParam String lname,
                               @RequestParam String ssn, Model model) {
         Customer c = new Customer();
@@ -128,13 +137,13 @@ public class ThymeController {
         return getAllCustomers(model);
     }
 
-    @GetMapping("/additem")
+    @GetMapping("/thyme/additem")
     public String addItemForm(Model model) {
         model.addAttribute("item", new Item());
         return "additem.html";
     }
 
-    @GetMapping("/registeritem")
+    @GetMapping("/thyme/registeritem")
     public String addItem(@RequestParam String name, @RequestParam Double price, Model model) {
 
         if (name.isBlank() || price < 0) return confirmItem(model, null, "Error: invalid data");
@@ -145,7 +154,7 @@ public class ThymeController {
         return confirmItem(model, i, "Item successfully added");
     }
 
-    @GetMapping("/adjustorder")
+    @GetMapping("/thyme/adjustorder")
     public String adjustOrder(@RequestParam long orderId,
                               @RequestParam String itemId,
                               @RequestParam int quantity,
@@ -168,7 +177,7 @@ public class ThymeController {
         return getOrder(orderId, model);
     }
 
-    @GetMapping("/neworder")
+    @GetMapping("/thyme/neworder")
     public String newOrder(@RequestParam long customerId, Model model) {
         Customer c = customerRepository.findById(customerId).orElse(null);
         if (c == null) return getAllOrders(-1, "id", "desc", model);
