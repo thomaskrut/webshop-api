@@ -3,6 +3,7 @@ package com.backendproject.webshopapi.controller;
 import com.backendproject.webshopapi.model.Customer;
 import com.backendproject.webshopapi.model.CustomerOrder;
 import com.backendproject.webshopapi.model.Item;
+import com.backendproject.webshopapi.model.OrderEntry;
 import com.backendproject.webshopapi.repository.CustomerOrderRepository;
 import com.backendproject.webshopapi.repository.CustomerRepository;
 import com.backendproject.webshopapi.repository.ItemRepository;
@@ -140,6 +141,22 @@ public class ThymeController {
         i.setPrice(price);
         itemRepository.save(i);
         return confirmItem(model, i, "Item successfully added");
+    }
+
+    @GetMapping("/adjustorder")
+    public String adjustOrder(@RequestParam long orderId,
+                              @RequestParam long itemId,
+                              @RequestParam int quantity,
+                              Model model) {
+
+        CustomerOrder order = orderRepository.findById(orderId).orElse(null);
+        Item item = itemRepository.findById(itemId).orElse(null);
+
+        if (item == null || order == null) return getOrder(orderId, model);
+
+        order.addOrderEntry(new OrderEntry(item, quantity));
+        orderRepository.save(order);
+        return getOrder(orderId, model);
     }
 
 

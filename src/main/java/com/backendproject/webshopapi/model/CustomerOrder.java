@@ -11,6 +11,7 @@ import org.hibernate.annotations.CascadeType;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -45,6 +46,9 @@ public class CustomerOrder {
         orderEntries.stream()
                 .filter(e -> e.getItem().getId() == orderEntry.getItem().getId())
                 .findFirst().ifPresentOrElse(e -> e.setQuantity(e.getQuantity() + orderEntry.getQuantity()), () -> orderEntries.add(orderEntry));
+
+        orderEntries.stream().filter(e -> e.getQuantity() < 0).toList().forEach(orderEntries::remove);
+
 
     }
 
