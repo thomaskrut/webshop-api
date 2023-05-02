@@ -52,14 +52,17 @@ public class CustomerOrder {
 
     }
 
+    @JsonIgnore
     public Double getTotal() {
         return orderEntries.stream().mapToDouble(e -> e.getItem().getPrice() * e.getQuantity()).sum();
     }
 
+    @JsonIgnore
     public String getTotalString() {
         return String.format("%.2f", orderEntries.stream().mapToDouble(e -> e.getItem().getPrice() * e.getQuantity()).sum());
     }
 
+    @JsonIgnore
     public int getItems() {
         return orderEntries.stream().mapToInt(OrderEntry::getQuantity).sum();
     }

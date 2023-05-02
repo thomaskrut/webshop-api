@@ -1,5 +1,6 @@
 package com.backendproject.webshopapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -25,6 +26,7 @@ public class Item {
         this.price = price;
     }
 
+    @JsonIgnore
     public String getPriceString(){
         return String.format("%.2f", price);
     }
