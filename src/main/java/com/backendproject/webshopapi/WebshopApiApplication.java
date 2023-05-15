@@ -25,6 +25,7 @@ public class WebshopApiApplication {
         SpringApplication.run(WebshopApiApplication.class, args);
     }
 
+    /*
     @Bean
     public CommandLineRunner initDb(CustomerRepository customerRepository, CustomerOrderRepository customerOrderRepository, OrderEntryRepository orderEntryRepository, ItemRepository itemRepository) {
         return (args) -> {
@@ -127,5 +128,5 @@ public class WebshopApiApplication {
             });
         };
     }
-
+*/
 }
